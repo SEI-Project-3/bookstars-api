@@ -11,18 +11,22 @@ router.get('/', (req, res, next) => {
 		.catch(next);
 });
 
-router.patch('/', (req, res, next) => {
-	Book.find({})
-		.then((books) => {
-			res.json(books);
+router.get('/:id', (req, res, next) => {
+	Book.findById(req.params.id)
+		.then((book) => {
+			res.json(book);
 		})
 		.catch(next);
 });
 
-router.patch('/', (req, res, next) => {
-	Book.find({})
-		.then((books) => {
-			res.json(books);
+router.patch('/:id', (req, res, next) => {
+	Book.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+	})
+		.then((book) => {
+			res.json(book);
 		})
 		.catch(next);
 });
+
+module.exports = router;
