@@ -11,18 +11,24 @@ router.get('/', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/:id', (req, res, next) => {
-	Book.findById(req.params.id)
+router.get('/:title', (req, res, next) => {
+	Book.findOne({
+		title: req.params.title,
+	})
 		.then((book) => {
 			res.json(book);
 		})
 		.catch(next);
 });
 
-router.patch('/:id', (req, res, next) => {
-	Book.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-	})
+router.patch('/:title', (req, res, next) => {
+	Book.findOneAndUpdate(
+		{
+			title: req.params.title,
+		},
+		req.body,
+		{ new: true }
+	)
 		.then((book) => {
 			res.json(book);
 		})
