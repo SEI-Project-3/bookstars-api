@@ -3,10 +3,18 @@ const Book = require('../models/Book');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-	Book.find({})
-		.then((books) => {
-			res.json(books);
+// router.get('/', (req, res, next) => {
+// 	Book.find({})
+// 		.then((books) => {
+// 			res.json(books);
+// 		})
+// 		.catch(next);
+// });
+
+router.post('/title/:title', (req, res, next) => {
+	Book.create(req.body)
+		.then((book) => {
+			res.status(201).json(book);
 		})
 		.catch(next);
 });
@@ -21,29 +29,39 @@ router.get('/title/:title', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/type/:type', (req, res, next) => {
-	Book.find({
-		type: req.params.type,
-	})
-		.then((book) => {
-			res.json(book);
-		})
-		.catch(next);
-});
+router.patch('/title/:title', async (req, res, next) => {
+	try {
+		const book = await Book.findOne({ title: req.params.title });
 
-router.patch('/title/:title', (req, res, next) => {
-	const { ratings, reviews } = req.body;
-	Book.findOneAndUpdate(
-		{
-			title: req.params.title,
-		},
-		{ ratings, reviews },
-		{ new: true }
-	)
-		.then((book) => {
+		if (!book) {
+			const newBook = await Book.create({
+				title: req.params.title,
+				ratings: [req.body.rating],
+				reviews: [req.body.review],
+			});
+			return res.json({ book: newBook });
+		} else {
+			book.ratings.push(req.body.rating);
+			book.reviews.push(req.body.review);
+			await book.save();
 			res.json(book);
-		})
-		.catch(next);
+		}
+	} catch (err) {
+		res.json(err);
+	}
+
+	// const { ratings, reviews } = req.body;
+	// Book.findOneAndUpdate(
+	// 	{
+	// 		title: req.params.title,
+	// 	},
+	// 	{ ratings, reviews },
+	// 	{ new: true }
+	// )
+	// 	.then((book) => {
+	// 		res.json(book);
+	// 	})
+	// 	.catch(next);
 });
 
 module.exports = router;
