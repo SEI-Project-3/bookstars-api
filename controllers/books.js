@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/:title', (req, res, next) => {
+router.get('/title/:title', (req, res, next) => {
 	Book.findOne({
 		title: req.params.title,
 	})
@@ -21,12 +21,23 @@ router.get('/:title', (req, res, next) => {
 		.catch(next);
 });
 
-router.patch('/:title', (req, res, next) => {
+router.get('/type/:type', (req, res, next) => {
+	Book.find({
+		type: req.params.type,
+	})
+		.then((book) => {
+			res.json(book);
+		})
+		.catch(next);
+});
+
+router.patch('/title/:title', (req, res, next) => {
+	const { ratings, reviews } = req.body;
 	Book.findOneAndUpdate(
 		{
 			title: req.params.title,
 		},
-		req.body,
+		{ ratings, reviews },
 		{ new: true }
 	)
 		.then((book) => {

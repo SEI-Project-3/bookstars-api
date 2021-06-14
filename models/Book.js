@@ -5,6 +5,7 @@ const BookSchema = new mongoose.Schema({
 	author: String,
 	book_image: String,
 	description: String,
+	type: String,
 	amazon_product_url: String,
 	ratings: [{ type: Number }],
 	reviews: [{ type: String }],
