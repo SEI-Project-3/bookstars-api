@@ -1,6 +1,6 @@
-const booksJSON = require('./books.json');
-const Book = require('../models/Book');
+// const booksJSON = require('./books.json');
+// const Book = require('../models/Book');
 
-Book.insertMany(booksJSON)
-	.catch(console.error)
-	.finally(() => process.exit());
+// Book.insertMany(booksJSON)
+// 	.catch(console.error)
+// 	.finally(() => process.exit());
