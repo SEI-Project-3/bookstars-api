@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const mongoURI =
-	'mongodb+srv://user:pw@cluster0.xvkad.mongodb.net/RatingsReviews?retryWrites=true&w=majority';
-// process.env.NODE_ENV === 'production'
-// 	? process.env.DB_URL
-// 	: 'mongodb://localhost/books';
+	process.env.NODE_ENV === 'production'
+		? process.env.DB_URL
+		: 'mongodb://localhost/books';
 
 mongoose
 	.connect(mongoURI, {
