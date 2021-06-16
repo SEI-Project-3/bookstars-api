@@ -3,14 +3,6 @@ const Book = require('../models/Book');
 
 const router = express.Router();
 
-// router.get('/', (req, res, next) => {
-// 	Book.find({})
-// 		.then((books) => {
-// 			res.json(books);
-// 		})
-// 		.catch(next);
-// });
-
 router.post('/title/:title', (req, res, next) => {
 	Book.create(req.body)
 		.then((book) => {
