@@ -31,37 +31,24 @@ router.get('/title/:title', (req, res, next) => {
 
 router.patch('/title/:title', async (req, res, next) => {
 	try {
-		const book = await Book.findOne({ title: req.params.title });
+		const book = await Book.findOne({ title: req.body.title });
 
 		if (!book) {
 			const newBook = await Book.create({
-				title: req.params.title,
-				ratings: [req.body.rating],
-				reviews: [req.body.review],
+				title: req.body.title,
+				ratings: req.body.ratings,
+				reviews: req.body.reviews,
 			});
 			return res.json({ book: newBook });
 		} else {
-			book.ratings.push(req.body.rating);
-			book.reviews.push(req.body.review);
+			book.ratings = req.body.ratings;
+			book.reviews = req.body.reviews;
 			await book.save();
 			res.json(book);
 		}
 	} catch (err) {
 		res.json(err);
 	}
-
-	// const { ratings, reviews } = req.body;
-	// Book.findOneAndUpdate(
-	// 	{
-	// 		title: req.params.title,
-	// 	},
-	// 	{ ratings, reviews },
-	// 	{ new: true }
-	// )
-	// 	.then((book) => {
-	// 		res.json(book);
-	// 	})
-	// 	.catch(next);
 });
 
 module.exports = router;
