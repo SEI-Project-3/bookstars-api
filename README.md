@@ -2,8 +2,6 @@
 
 API that stores the data for the Bookstars - Reviews & Ratings
 
-***INSERT WIREFRAMES HERE***
-
 ## Technologies Used 
 
 Bookstars makes use of two third party APIs (NYTs Bestselling Books and Google Books), as well as our own API using Node. Our API holds the information for each rating and review.
